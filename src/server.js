@@ -5,7 +5,7 @@ import cors from 'cors';
 import { getAllContacts, getContactById } from './services/contacts.js';
 import mongoose from 'mongoose';
 
-const PORT = Number(env('PORT', '4000'));
+const PORT = Number(env('PORT', '3002'));
 
 export const setupServer = () => {
   const app = express();
