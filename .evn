@@ -1,5 +1,0 @@
-PORT=3002
-MONGODB_USER=DariyaDu
-MONGODB_PASSWORD=1ThOkOpDzipm6eP
-MONGODB_URL=cluster0.dv0umdg.mongodb.net
-MONGODB_DB=contacts
