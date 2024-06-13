@@ -2,10 +2,10 @@ import express from 'express';
 import { env } from './utils/env.js';
 import pino from 'pino-http';
 import cors from 'cors';
-import { getAllContacts, getContactById } from './services/contacts.js';
-import mongoose from 'mongoose';
+import { HttpError } from 'http-errors';
+import contactRouter from './routers/contacts.js';
 
-const PORT = Number(env('PORT', '3000'));
+const PORT = Number(env('PORT', '3001'));
 
 export const setupServer = () => {
   const app = express();
@@ -20,6 +20,8 @@ export const setupServer = () => {
       },
     }),
   );
+
+  app.use(contactRouter);
 
   app.get('/contacts', async (req, res) => {
     const contacts = await getAllContacts();
@@ -60,7 +62,45 @@ export const setupServer = () => {
     res.status(404).json({ message: 'Not found' });
   });
 
+  app.use((err, req, res, next) => {
+    if (err instanceof HttpError) {
+      res.status(err.status).json({
+        status: err.status,
+        message: err.name,
+        data: err,
+      });
+      return;
+    }
+
+    res.status(500).json({
+      message: 'Something went wrong',
+      error: err.message,
+    });
+  });
+
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+  });
+};
+
+export const errorHandler = (err, req, res, next) => {
+  if (err instanceof HttpError) {
+    res.status(err.status).json({
+      status: err.status,
+      message: err.name,
+      data: err,
+    });
+    return;
+  }
+
+  res.status(500).json({
+    message: 'Something went wrong',
+    error: err.message,
+  });
+};
+
+export const notFoundHandler = (req, res) => {
+  res.status(404).json({
+    message: 'Route not found',
   });
 };
