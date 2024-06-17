@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import { HttpError } from 'http-errors';
 import contactRouter from './routers/contacts.js';
+import { createContactSchema } from './validation/contacts.js';
 
 const PORT = Number(env('PORT', '3001'));
 
@@ -41,6 +42,16 @@ export const setupServer = () => {
         message: `Invalid contact ID: ${contactId}`,
       });
     }
+
+    app.post('/contacts', async (req, res, next) => {
+      try {
+        await createContactSchema.validateAsync(req.body, {
+          abortEarly: false,
+        });
+      } catch (validationError) {
+        next(validationError);
+      }
+    });
 
     const contact = await getContactById(contactId);
 

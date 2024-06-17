@@ -7,6 +7,12 @@ import {
   upsertContactController,
   patchContactController,
 } from '../controllers/contacts.js';
+import {
+  createContactSchema,
+  updateContactSchema,
+} from '../validation/contacts.js';
+
+import { validateBody } from '../validation/contacts.js';
 
 const router = Router();
 
@@ -27,5 +33,17 @@ router.post('/contacts', ctrlWrapper(createContactController));
 router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
 router.put('/contacts/:contactId', ctrlWrapper(upsertContactController));
 router.patch('/contacts/:contactId', ctrlWrapper(patchContactController));
+
+router.patch(
+  '/contacts/:contactId',
+  validateBody(updateContactSchema),
+  ctrlWrapper(patchContactController),
+);
+
+router.post(
+  '/',
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
 
 export default router;
