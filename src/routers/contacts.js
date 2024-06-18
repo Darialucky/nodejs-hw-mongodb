@@ -12,7 +12,7 @@ import {
   updateContactSchema,
 } from '../validation/contacts.js';
 
-import { validateBody } from '../validation/contacts.js';
+import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
 
@@ -29,21 +29,21 @@ export const ctrlWrapper = (controller) => {
 router.get('/contacts', ctrlWrapper(getContactsController));
 router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
 
-router.post('/contacts', ctrlWrapper(createContactController));
+router.post(
+  '/contacts',
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
 router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
-router.put('/contacts/:contactId', ctrlWrapper(upsertContactController));
-router.patch('/contacts/:contactId', ctrlWrapper(patchContactController));
-
+router.put(
+  '/contacts/:contactId',
+  validateBody(updateContactSchema),
+  ctrlWrapper(upsertContactController),
+);
 router.patch(
   '/contacts/:contactId',
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
-);
-
-router.post(
-  '/',
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
 );
 
 export default router;
