@@ -11,10 +11,12 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
+router.use(authenticate);
 
 export const ctrlWrapper = (controller) => {
   return async (req, res, next) => {

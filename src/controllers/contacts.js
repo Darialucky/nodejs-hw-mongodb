@@ -1,10 +1,11 @@
-import { getAllContacts, getContactById } from '../services/contacts.js';
 import mongoose from 'mongoose';
 import createHttpError from 'http-errors';
 import {
   createContact,
-  updateContact,
   deleteContact,
+  getAllContacts,
+  getContactById,
+  updateContact,
 } from '../services/contacts.js';
 
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
