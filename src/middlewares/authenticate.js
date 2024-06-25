@@ -1,5 +1,4 @@
 import createHttpError from 'http-errors';
-
 import { SessionsCollection } from '../db/session.js';
 import { UsersCollection } from '../db/user.js';
 

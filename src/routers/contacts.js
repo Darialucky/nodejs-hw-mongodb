@@ -16,7 +16,6 @@ import { authenticate } from '../middlewares/authenticate.js';
 import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
-router.use(authenticate);
 
 export const ctrlWrapper = (controller) => {
   return async (req, res, next) => {
@@ -27,6 +26,8 @@ export const ctrlWrapper = (controller) => {
     }
   };
 };
+
+router.use(authenticate);
 
 router.get('/contacts', ctrlWrapper(getContactsController));
 router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
