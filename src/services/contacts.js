@@ -2,17 +2,19 @@ import { Contact } from '../db/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/constants.js';
 
-export const getAllContacts = async ({
-  page = 1,
-  perPage = 10,
-  sortOrder = SORT_ORDER.ASC,
-  sortBy = '_id',
-}) => {
+export const getAllContacts = async (
+  userId,
+  { page = 1, perPage = 10, sortOrder = SORT_ORDER.ASC, sortBy = '_id' },
+) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = Contact.find();
-  const contactsCount = await Contact.find()
+  const contactsQuery = Contact.find({
+    userId,
+  });
+  const contactsCount = await Contact.find({
+    userId,
+  })
     .merge(contactsQuery)
     .countDocuments();
 
@@ -30,8 +32,11 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (contactId) => {
-  const contact = await Contact.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+  const contact = await Contact.findOne({
+    _id: contactId,
+    userId,
+  });
   return contact;
 };
 
@@ -40,22 +45,13 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await Contact.findOneAndDelete({
-    _id: contactId,
-  });
-
-  return contact;
-};
-
-export const updateContact = async (contactId, payload, options = {}) => {
+export const updateContact = async (contactId, userId, payload) => {
   const rawResult = await Contact.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId },
     payload,
     {
       new: true,
       includeResultMetadata: true,
-      ...options,
     },
   );
 
@@ -65,4 +61,13 @@ export const updateContact = async (contactId, payload, options = {}) => {
     contact: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
+};
+
+export const deleteContact = async (contactId, userId) => {
+  const contact = await Contact.findOneAndDelete({
+    _id: contactId,
+    userId,
+  });
+
+  return contact;
 };

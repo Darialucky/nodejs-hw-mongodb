@@ -1,6 +1,6 @@
-import { model, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const contactSchema = new Schema(
+const contactsSchema = new Schema(
   {
     name: {
       type: String,
@@ -12,7 +12,6 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
-      match: [/\S+@\S+\.\S+/, 'is invalid'],
       required: false,
     },
     isFavourite: {
@@ -25,6 +24,11 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -32,10 +36,4 @@ const contactSchema = new Schema(
   },
 );
 
-contactSchema.methods.toJSON = function () {
-  const obj = this.toObject();
-  delete obj.password;
-  return obj;
-};
-
-export const Contact = model('Contact', contactSchema);
+export const Contact = model('contacts', contactsSchema);
