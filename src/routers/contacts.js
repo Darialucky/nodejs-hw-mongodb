@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   createContactController,
   deleteContactController,
@@ -19,16 +20,6 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { upload } from '../middlewares/multer.js';
 
 const router = Router();
-
-export const ctrlWrapper = (controller) => {
-  return async (req, res, next) => {
-    try {
-      await controller(req, res, next);
-    } catch (err) {
-      next(err);
-    }
-  };
-};
 
 router.use(authenticate);
 router.use('/:contactId', checkUserId);
