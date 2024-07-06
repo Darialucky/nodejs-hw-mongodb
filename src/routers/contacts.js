@@ -12,11 +12,8 @@ import {
   updateContactSchema,
 } from '../validation/contacts.js';
 import { checkUserId } from '../middlewares/checkUserId.js';
-
 import { authenticate } from '../middlewares/authenticate.js';
-
 import { validateBody } from '../middlewares/validateBody.js';
-
 import { upload } from '../middlewares/multer.js';
 
 const router = Router();

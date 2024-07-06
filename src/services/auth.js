@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import { SMTP } from '../constants/index.js';
 import { env } from '../utils/env.js';
 import { sendEmail } from '../utils/sendMail.js';
+import { TEMPLATES_DIR } from '../constants/index.js';
 
 import handlebars from 'handlebars';
 import path from 'node:path';
