@@ -5,7 +5,6 @@ import {
   requestResetEmailSchema,
   resetPasswordSchema,
 } from '../validation/auth.js';
-import { validateBody } from '../middlewares/validateBody.js';
 import {
   loginUserController,
   logoutUserController,
@@ -16,6 +15,7 @@ import {
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
 
