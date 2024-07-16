@@ -10,5 +10,5 @@ export const checkUserId = async (req, res, next) => {
     next();
     return;
   }
-  next(createHttpError(404, 'Contact with this ID not found'));
+  next(createHttpError(404));
 };

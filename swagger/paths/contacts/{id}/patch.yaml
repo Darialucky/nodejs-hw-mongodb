@@ -17,9 +17,6 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
         properties:
           name:
             description: "Contact's name"
@@ -67,8 +64,8 @@ responses:
               example: Successfully patched a contact!
             data:
               type: object
-              $ref: '../../../components/schemas/contact.yaml'
+              $ref: ../../../components/schemas/contact.yaml
   '401':
-    $ref: '../../../components/responses/401.yaml'
+    $ref: ../../../components/responses/401.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: ../../../components/responses/404.yaml
