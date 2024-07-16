@@ -307,7 +307,6 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["name", "phoneNumber"],
                 "properties": {
                   "name": {
                     "description": "Contact's name",
